@@ -1,0 +1,64 @@
+use std::fs;
+
+
+fn part1() {
+        println!("===== Part1 =====");
+        let input = fs::read_to_string("input")
+                            .expect("Should have been able to read the file");
+        let mut score = 0;
+
+        for line in input.lines() {
+            let symbols:Vec<&str> = line.split_whitespace().collect();
+            let opponent = symbols[0];
+            let player = symbols[1];
+
+            match player {
+                "X"=>score+=1,
+                "Y"=>score+=2,
+                "Z"=>score+=3,
+                _=>println!("Player is drunk."),
+            }
+            
+            if(opponent == "A" && player == "Y") || (opponent == "B" && player == "Z") || (opponent == "C" && player == "X") {
+                score += 6;
+            } else if (opponent == "A" && player == "X") || (opponent == "B" && player == "Y") || (opponent == "C" && player == "Z") {
+                score += 3;
+            }
+        }
+        println!("Player's final score is {}.", score)
+}
+
+fn part2() {
+        println!("===== Part2 =====");
+        let input = fs::read_to_string("input")
+                            .expect("Should have been able to read the file");
+        let mut score = 0;
+
+        for line in input.lines() {
+            let symbols:Vec<&str> = line.split_whitespace().collect();
+            let opponent = symbols[0];
+            let player = symbols[1];
+
+            match player {
+                "Y"=>score+=3,
+                "Z"=>score+=6,
+                _=>(),
+            }
+
+            if(opponent == "A" && player == "Y") || (opponent == "B" && player == "X") || (opponent == "C" && player == "Z") {
+                score += 1;
+            } else if (opponent == "A" && player == "Z") || (opponent == "B" && player == "Y") || (opponent == "C" && player == "X") {
+                score += 2;
+            } else {
+                score += 3;
+            }
+
+            
+        }
+        println!("Player's final score is {}.", score)
+}
+
+fn main () {
+    part1();
+    part2();
+}
