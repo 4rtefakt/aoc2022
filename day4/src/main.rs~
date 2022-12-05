@@ -1,0 +1,56 @@
+use std::fs;
+
+struct ElfRange {
+    start: u64,
+    end: u64,
+}
+
+fn range_contains(elf1: &ElfRange, elf2: &ElfRange) -> bool {
+    return (elf1.start <= elf2.start && elf1.end >= elf2.end) || (elf2.start <= elf1.start && elf2.end >= elf1.end)
+}
+
+
+fn range_overlaps(elf1: &ElfRange, elf2: &ElfRange) -> bool {
+    return (elf1.start <= elf2.start && elf1.end >= elf2.start) || (elf2.start <= elf1.start && elf2.end >= elf1.start) || (elf1.end >= elf2.end && elf1.start <= elf2.end) || (elf2.end >= elf1.end && elf2.start <= elf1.end)
+}
+
+fn part1() {
+        println!("===== Part1 =====");
+        let input = fs::read_to_string("input")
+                            .expect("Should have been able to read the file");
+
+        let mut score = 0;
+        for line in input.lines() {
+
+            let elves:Vec<&str> = line.split(",").collect();
+
+            let elf1 = ElfRange { 
+                start: elves[0].split("-").collect::<Vec<&str>>()[0].parse::<u64>().unwrap(), 
+                end: elves[0].split("-").collect::<Vec<&str>>()[1].parse::<u64>().unwrap()
+            };
+
+            let elf2 = ElfRange { 
+                start: elves[1].split("-").collect::<Vec<&str>>()[0].parse::<u64>().unwrap(), 
+                end: elves[1].split("-").collect::<Vec<&str>>()[1].parse::<u64>().unwrap()
+            };
+
+            if range_contains(&elf1, &elf2) {
+                score += 1;
+            }
+            //println!("Elf1 : {}-{} ; Elf2 : {}-{}", elf1.start, elf1.end, elf2.start, elf2.end);
+
+        }
+
+        println!("Final score is {}.", score);
+}
+
+fn part2() {
+        println!("===== Part2 =====");
+        let input = fs::read_to_string("input")
+                            .expect("Should have been able to read the file");
+}
+
+fn main () {
+    part1();
+    part2();
+}
